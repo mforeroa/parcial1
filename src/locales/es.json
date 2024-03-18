@@ -1,0 +1,14 @@
+{
+    "FormTitle": "Inicio de sesión",
+    "UserName": "Nombre de usuario",
+    "Pass": "Contraseña",
+    "logInButton": "Ingresar",
+    "cancelButton": "Cancelar",
+    "brand":"Marca",
+    "line":"Línea",
+    "model":"Modelo",
+    "km":"Kilometraje",
+    "color":"Color",
+    "reference":"Referencia"
+
+}

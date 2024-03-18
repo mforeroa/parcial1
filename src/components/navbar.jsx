@@ -1,14 +1,16 @@
 import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
+import {Navbar} from "react-bootstrap";
 
 function NavBar() {
  return (
    <>
-     <Navbar bg="light" variant="light">
+     <Navbar >
        <Container>
-         <Navbar.Brand href="/home">TuSegundazo.com</Navbar.Brand>
+         <Navbar.Brand href="/" className="header">TuSegundazo.com</Navbar.Brand>
        </Container>
      </Navbar>
+     
+
    </>
  );
 }

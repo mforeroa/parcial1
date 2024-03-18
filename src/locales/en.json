@@ -1,0 +1,14 @@
+{
+    "FormTitle": "Log In",
+    "UserName": "User Name",
+    "Pass": "Password",
+    "logInButton": "Enter",
+    "cancelButton": "Cancel",
+    "brand":"Brand",
+    "line":"Line",
+    "model":"Model",
+    "km":"Mileage",
+    "color":"Color",
+    "reference":"Reference"
+
+}

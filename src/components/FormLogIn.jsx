@@ -1,68 +1,78 @@
 import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import { useNavigate } from 'react-router-dom';
+import {Button, Form} from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
 
 function FormLogIn() {
 
-    const initialState = { user: "", password: "" };
+    const [error, setError] = useState('');
+    const history = useNavigate();
+
+    const initialState = { login: "", password: "" };
     const [formValues, setFormValues] = useState(initialState)
-    const [validationStates, setValidationStates] = useState({userState: false, passwordState: false})
-    const handleUserChange = ((e) => {
-      setFormValues({...formValues, user: e.target.value})
-    });
-   
-    const handlePasswordChange = ((e) => {
-      setFormValues({...formValues, password: e.target.value})
-    });
+    
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormValues({ ...formValues, [name]: value });
+      };
+
+    const clickSubmit = (e) => {
+        e.preventDefault();
+
+        fetch('http://localhost:3001/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formValues),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+        if (data.status === 'success') {
+          // Redirect to another route if credentials are correct
+          history('/home');
+        } else {
+          setError('Error de autenticación. Revise sus credenciales');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        setError('Error de conexión. Intente de nuevo más tarde.');
+      });
+    };
 
     const handleCancel = () => {
         setFormValues(initialState);
-        setValidationStates({ userState: false, passwordState: false });
+        setError('');
       };
-   
 
-  
-    const clickSubmit = (() => {
-      const userState= formValues.user
-      console.log(userState)
-      setValidationStates ({...validationStates, userState: userState})
-      const regex = /^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{9,}$/;
-      const passwordState= regex.test(formValues.password);
-      console.log(passwordState)
-      setValidationStates ({...validationStates, passwordState: passwordState})
-      
-      if (userState && passwordState){
-        //Call fetch
-        alert(JSON.stringify(formValues))
-      }
-      else{
-        alert("Error en los datos")
-      }
-    })
     return (
+        <div className="d-flex justify-content-center">
+            <Form className='formLogIn'>
+                <h2 className='logInTitle'><FormattedMessage id= "FormTitle"/></h2>
+                <Form.Group controlId="formBasicEmail">
+                    <Form.Label className='formLabels'><FormattedMessage id= "UserName"/></Form.Label>
+                    <Form.Control className= 'logInControls' type="text" name="login" onChange={handleInputChange} value={formValues.login} />
+                </Form.Group>
 
-        <div>
-       
-        <Form>
-        <Form.Group className="mb-6 " controlId="formBasicEmail">
-          <Form.Label>Nombre de usuario</Form.Label>
-          <Form.Control type="user" placeholder="Ingrese su usuario" onChange={handleUserChange} value={formValues.email}/>
-        </Form.Group>
-   
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Contraseña</Form.Label>
-          <Form.Control type="password" placeholder="Contraseña" onChange={handlePasswordChange} value={formValues.password} />
-        </Form.Group>
-        <Button variant="primary" onClick={clickSubmit}>
-          Ingresar
-        </Button>
-        <Button variant="primary" onClick={handleCancel}>
-          Cancelar
-        </Button>
-      </Form>
-      </div>
+                <Form.Group controlId="formBasicPassword">
+                    <Form.Label className='formLabels'><FormattedMessage id= "Pass"/></Form.Label>
+                    <Form.Control className= 'logInControls'type="password" name="password" onChange={handleInputChange} value={formValues.password} />
+                </Form.Group>
 
-);
+                <div className="d-flex justify-content-between">
+                    <Button className='formButtonsBlue' onClick={clickSubmit}>
+                    <FormattedMessage id= "logInButton"/>
+                    </Button>
+                    <Button className='formButtonsRed' onClick={handleCancel}>
+                    <FormattedMessage id= "cancelButton"/>
+                    </Button>
+                </div>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+            </Form>
+        </div>
+    );
 }
 
 export default FormLogIn;

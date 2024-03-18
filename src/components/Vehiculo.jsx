@@ -1,18 +1,19 @@
 import React from 'react';
 import { Card } from "react-bootstrap";
+import { FormattedMessage } from 'react-intl';
 
 
 function Vehiculo(props) {
-    console.log(props.vehiculo);
+    
   return (
     <div>
-        <Card>
+        <Card className='carCard'>
             <Card.Body>
-            <Card.Title>{props.vehiculo.marca}</Card.Title>
-            <Card.Img src={props.vehiculo.imagen} />
-            <Card.Text>Kilometraje: {props.vehiculo.kilometraje}</Card.Text>
-            <Card.Text>Color: {props.vehiculo.color}</Card.Text>
-            <Card.Text>Referencia: {props.vehiculo.referencia}</Card.Text>
+            <Card.Title className='carCardTitle'>{props.vehiculo.marca}</Card.Title>
+            <Card.Img className='carCardImage' src={props.vehiculo.imagen} />
+            <Card.Text className='carCardText'> -> <FormattedMessage id="km"/>: {props.vehiculo.kilometraje}</Card.Text>
+            <Card.Text className='carCardText'> -> <FormattedMessage id="color"/>: {props.vehiculo.color}</Card.Text>
+            <Card.Text className='carCardText'> -> <FormattedMessage id="reference"/>: {props.vehiculo.referencia}</Card.Text>
             </Card.Body>
         </Card>
 
